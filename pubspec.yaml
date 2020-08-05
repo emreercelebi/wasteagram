@@ -19,6 +19,14 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: lib/assets/fonts/Montserrat-Bold.ttf
+        - asset: lib/assets/fonts/Montserrat-Medium.ttf
+        - asset: lib/assets/fonts/Montserrat-MediumItalic.ttf
+          style: italic
+        - asset: lib/assets/fonts/Montserrat-SemiBold.ttf
 
