@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../styles.dart';
+import '../models/waste_entry.dart';
+import '../mock/mock_waste_entries.dart';
+import '../helpers.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -9,12 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  List<WasteEntry> _wasteEntries;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: update with real data
+    _wasteEntries = generateTestWasteEntries();
   }
 
   @override
@@ -23,24 +29,29 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: ListView.builder(
+        itemCount: _wasteEntries == null ? 0 : _wasteEntries.length,
+        itemBuilder: (context, i) {
+          final entry = _wasteEntries[i];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text(
+                Helpers.dateToString(entry.date),
+                style: Styles.headingSubBold
+              ),
+              trailing: Text(
+                entry.quantity.toString(),
+                style: Styles.textLargeBold,
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: () {},
+        tooltip: 'Camera',
+        child: Icon(Icons.camera_alt),
       ),
     );
   }
