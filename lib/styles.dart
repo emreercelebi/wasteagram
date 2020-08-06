@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Styles {
-  static final String _fontFamilyName = 'Roboto';
+  static final String _fontFamilyName = 'Montserrat';
   static final orangePrimary = 0xffE57200;
   static final orangeSecondary = 0xffEB5F0C;
   static final bluePrimary = 0xff232D4B;
