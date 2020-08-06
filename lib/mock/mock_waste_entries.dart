@@ -10,6 +10,8 @@ List<WasteEntry> generateTestWasteEntries() {
     entries.add(WasteEntry(
       date: dates[i],
       quantity: quantities[i],
+      longitude: 5.0,
+      latitude: 20.0,
     ));
   }
 
