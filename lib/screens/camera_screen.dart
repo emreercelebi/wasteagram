@@ -11,6 +11,14 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   File image;
+  int quantity;
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +30,36 @@ class _CameraScreenState extends State<CameraScreen> {
         appBar: AppBar(
           title: Text('Wasteagram'),
         ),
+        resizeToAvoidBottomInset: false,
         body: Center(
           child: Column(
             children: [
-              Image.file(image),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.file(
+                  image,
+                  height: 300.0,
+                  width: 300.0,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    decoration: new InputDecoration(
+                      labelText: 'Enter quantity',
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: myController,
+                  ),
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  print('uploading to cloud firestore');
+                },
+                child: Icon(Icons.cloud_upload),
+              )
             ],
           ),
         ),
