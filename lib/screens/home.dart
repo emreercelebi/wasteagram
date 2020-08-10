@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wasteagram'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: _wasteEntries == null ? 0 : _wasteEntries.length,
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Camera',
         child: Icon(Icons.camera_alt),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
