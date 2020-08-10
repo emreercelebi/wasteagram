@@ -4,6 +4,9 @@ import '../models/waste_entry.dart';
 import '../mock/mock_waste_entries.dart';
 import '../helpers.dart';
 import 'photo_detail.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'camera_screen.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
@@ -14,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<WasteEntry> _wasteEntries;
+  File image;
 
   @override
   void initState() {
@@ -21,6 +25,11 @@ class _HomePageState extends State<HomePage> {
 
     //TODO: update with real data
     _wasteEntries = generateTestWasteEntries();
+  }
+
+  void getImage(BuildContext context) async {
+    image = await ImagePicker.pickImage(source: ImageSource.camera);
+    await Navigator.of(context).pushNamed(CameraScreen.route, arguments: image);
   }
 
   @override
@@ -54,7 +63,9 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          getImage(context);
+        },
         tooltip: 'Camera',
         child: Icon(Icons.camera_alt),
       ),
