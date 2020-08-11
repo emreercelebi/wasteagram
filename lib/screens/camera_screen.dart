@@ -59,7 +59,8 @@ class _CameraScreenState extends State<CameraScreen> {
       'longitude': locationData.longitude,
       'quantity': int.parse(myController.text) ?? 0
     });
-    print(url);
+
+    Navigator.of(context).pop();
   }
 
   @override

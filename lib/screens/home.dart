@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getData() {
+    _wasteEntries = List<WasteEntry>();
     return StreamBuilder(
       stream: Firestore.instance.collection('waste_posts').snapshots(),
       builder: (context, snapshot) {
@@ -42,15 +43,30 @@ class _HomePageState extends State<HomePage> {
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
               var post = snapshot.data.documents[index];
+              var wasteEntry = WasteEntry(
+                  date: DateTime.fromMillisecondsSinceEpoch(
+                      post['date'].millisecondsSinceEpoch),
+                  imageUrl: post['image'],
+                  latitude: post['latitude'],
+                  longitude: post['longitude'],
+                  quantity: post['quantity']);
+              _wasteEntries.add(wasteEntry);
               return ListTile(
                 title: Text(
-                  Helpers.dateToString(new DateTime.fromMillisecondsSinceEpoch(post['date'].millisecondsSinceEpoch)),
+                  Helpers.dateToString(new DateTime.fromMillisecondsSinceEpoch(
+                      post['date'].millisecondsSinceEpoch)),
                   style: Styles.headingSubBold,
                 ),
                 trailing: Text(
                   post['quantity'].toString(),
                   style: Styles.textLargeBold,
                 ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    PhotoDetail.route,
+                    arguments: wasteEntry,
+                  );
+                },
               );
             },
           );
