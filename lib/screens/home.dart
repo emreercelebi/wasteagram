@@ -7,6 +7,7 @@ import 'photo_detail.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'camera_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
@@ -32,6 +33,34 @@ class _HomePageState extends State<HomePage> {
     await Navigator.of(context).pushNamed(CameraScreen.route, arguments: image);
   }
 
+  Widget getData() {
+    return StreamBuilder(
+      stream: Firestore.instance.collection('waste_posts').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) {
+              var post = snapshot.data.documents[index];
+              return ListTile(
+                title: Text(
+                  Helpers.dateToString(new DateTime.fromMillisecondsSinceEpoch(post['date'].millisecondsSinceEpoch)),
+                  style: Styles.headingSubBold,
+                ),
+                trailing: Text(
+                  post['quantity'].toString(),
+                  style: Styles.textLargeBold,
+                ),
+              );
+            },
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,29 +68,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('Wasteagram'),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: _wasteEntries == null ? 0 : _wasteEntries.length,
-        itemBuilder: (context, i) {
-          final entry = _wasteEntries[i];
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text(Helpers.dateToString(entry.date),
-                  style: Styles.headingSubBold),
-              trailing: Text(
-                entry.quantity.toString(),
-                style: Styles.textLargeBold,
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  PhotoDetail.route,
-                  arguments: entry,
-                );
-              },
-            ),
-          );
-        },
-      ),
+      body: getData(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           getImage(context);

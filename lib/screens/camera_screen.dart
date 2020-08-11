@@ -51,6 +51,14 @@ class _CameraScreenState extends State<CameraScreen> {
     StorageUploadTask uploadTask = storageReference.putFile(image);
     await uploadTask.onComplete;
     final url = await storageReference.getDownloadURL();
+
+    Firestore.instance.collection('waste_posts').add({
+      'date': DateTime.now(),
+      'image': url,
+      'latitude': locationData.latitude,
+      'longitude': locationData.longitude,
+      'quantity': int.parse(myController.text) ?? 0
+    });
     print(url);
   }
 
