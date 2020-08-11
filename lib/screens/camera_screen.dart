@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:location/location.dart';
+import 'package:path/path.dart' as p;
 
 class CameraScreen extends StatefulWidget {
   static const route = '/image';
@@ -43,6 +46,14 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  void uploadEntry() async {
+    StorageReference storageReference = FirebaseStorage.instance.ref().child(p.basename(image.path));
+    StorageUploadTask uploadTask = storageReference.putFile(image);
+    await uploadTask.onComplete;
+    final url = await storageReference.getDownloadURL();
+    print(url);
+  }
+
   @override
   Widget build(BuildContext context) {
     image = ModalRoute.of(context).settings.arguments;
@@ -81,6 +92,7 @@ class _CameraScreenState extends State<CameraScreen> {
               RaisedButton(
                 onPressed: () {
                   print('uploading to cloud firestore');
+                  uploadEntry();
                 },
                 child: Icon(Icons.cloud_upload),
               )
