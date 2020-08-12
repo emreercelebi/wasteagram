@@ -29,7 +29,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getImage(BuildContext context) async {
-    image = await ImagePicker.pickImage(source: ImageSource.camera);
+    final _picker = ImagePicker();
+    final pickedFile = await _picker.getImage(source: ImageSource.camera);
+    image = File(pickedFile.path);
     await Navigator.of(context).pushNamed(CameraScreen.route, arguments: image);
   }
 
@@ -85,12 +87,17 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: getData(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getImage(context);
-        },
-        tooltip: 'Camera',
-        child: Icon(Icons.camera_alt),
+      floatingActionButton: Semantics(
+        child: FloatingActionButton(
+          onPressed: () {
+            getImage(context);
+          },
+          tooltip: 'Camera',
+          child: Icon(Icons.camera_alt),
+        ),
+        button: true,
+        enabled: true,
+        onTapHint: 'Open camera to take a picture',
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

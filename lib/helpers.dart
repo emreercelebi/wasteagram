@@ -2,13 +2,13 @@ class Helpers {
   static String dateToString(DateTime date) {
     final weekdays = [
       '',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+      'Sun'
     ];
 
     final months = [

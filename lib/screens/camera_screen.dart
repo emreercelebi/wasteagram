@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:location/location.dart';
 import 'package:path/path.dart' as p;
+import 'package:wasteagram/styles.dart';
 
 class CameraScreen extends StatefulWidget {
   static const route = '/image';
@@ -40,14 +41,22 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget locationInfo() {
     return Column(
       children: [
-        Text('latitude: ' + locationData.latitude.toString()),
-        Text('longitude: ' + locationData.longitude.toString())
+        Text(
+          'latitude: ' + locationData.latitude.toString(),
+          style: Styles.textSubBold,
+        ),
+        Text(
+          'longitude: ' + locationData.longitude.toString(),
+          style: Styles.textSubBold,
+        ),
+        SizedBox(height: 16.0)
       ],
     );
   }
 
   void uploadEntry() async {
-    StorageReference storageReference = FirebaseStorage.instance.ref().child(p.basename(image.path));
+    StorageReference storageReference =
+        FirebaseStorage.instance.ref().child(p.basename(image.path));
     StorageUploadTask uploadTask = storageReference.putFile(image);
     await uploadTask.onComplete;
     final url = await storageReference.getDownloadURL();
@@ -71,7 +80,7 @@ class _CameraScreenState extends State<CameraScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Wasteagram'),
+          title: Text('New Post'),
         ),
         resizeToAvoidBottomInset: false,
         body: Center(
