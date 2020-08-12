@@ -26,6 +26,7 @@ dev_dependencies:
   firebase_storage: ^3.1.6
   location: ^3.0.2
   path: ^1.6.4
+  test: ^1.10.0
 
 flutter:
   uses-material-design: true

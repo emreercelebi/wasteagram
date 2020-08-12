@@ -45,13 +45,7 @@ class _HomePageState extends State<HomePage> {
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
               var post = snapshot.data.documents[index];
-              var wasteEntry = WasteEntry(
-                  date: DateTime.fromMillisecondsSinceEpoch(
-                      post['date'].millisecondsSinceEpoch),
-                  imageUrl: post['image'],
-                  latitude: post['latitude'],
-                  longitude: post['longitude'],
-                  quantity: post['quantity']);
+              var wasteEntry = WasteEntry.fromMap(map: post.data);
               _wasteEntries.add(wasteEntry);
               return ListTile(
                 title: Text(

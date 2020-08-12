@@ -1,11 +1,20 @@
 import 'dart:io';
 
 class WasteEntry {
-  final DateTime date;
-  final int quantity;
-  final String imageUrl;
-  final double latitude;
-  final double longitude;
+  DateTime date;
+  int quantity;
+  String imageUrl;
+  double latitude;
+  double longitude;
+  Map<String, dynamic> map;
 
   WasteEntry({this.date, this.quantity, this.imageUrl, this.latitude, this.longitude});
+
+  WasteEntry.fromMap({this.map}) {
+    date = DateTime.fromMillisecondsSinceEpoch(map['date'].millisecondsSinceEpoch);
+    quantity = map['quantity'];
+    imageUrl = map['image'];
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+  }
 }
